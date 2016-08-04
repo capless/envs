@@ -85,3 +85,6 @@ celerybeat-schedule
 
 # Rope project settings
 .ropeproject
+
+# PyCharm Stuff
+.idea/
