@@ -93,7 +93,7 @@ class EnvTestCase(unittest.TestCase):
             env('INVALID_FLOAT', var_type='float')
         self.assertIn(str(vm.exception),
                       ("could not convert string to float: '[5.0]'",
-                       "could not convert string to float: '[5.0]'"))
+                       'could not convert string to float: [5.0]'))
 
 if __name__ == '__main__':
     unittest.main()
