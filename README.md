@@ -30,7 +30,6 @@ If you need environment variables for your settings but need an easy way of Pyth
 ##Tuples
 **Environment Variable Example:** SERVER_NAMES="('coastal','inland','western')"
 
-_I know it's the same data as above so what you get the point!! LOL_
 ```python
 >>>from envs import env
 
@@ -73,6 +72,6 @@ _I know it's the same data as above so what you get the point!! LOL_
 ```python
 >>>from envs import env
 
->>>env('NO_SERVERS',var_type='boolean')
+>>>env('USE_PROFILE',var_type='boolean')
 False
 ```
