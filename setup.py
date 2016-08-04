@@ -9,6 +9,6 @@ setup(
     license='GNU GPL v3',
     keywords='environment variables',
     packages=find_packages(),
-    version='0.1.2',
+    version='0.2.0',
 )
 
