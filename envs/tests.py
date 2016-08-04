@@ -91,8 +91,9 @@ class EnvTestCase(unittest.TestCase):
     def test_dict_invalid(self):
         with self.assertRaises(ValueError) as vm:
             env('INVALID_FLOAT', var_type='float')
-        self.assertEquals(str(vm.exception),
-                          "could not convert string to float: '[5.0]'")
+        self.assertIn(str(vm.exception),
+                      ("could not convert string to float: '[5.0]'",
+                       "could not convert string to float: '[5.0]'"))
 
 if __name__ == '__main__':
     unittest.main()
