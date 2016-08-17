@@ -35,8 +35,6 @@ class EnvTestCase(unittest.TestCase):
     def test_integer_invalid(self):
         with self.assertRaises(TypeError) as vm:
             env('INVALID_INTEGER',var_type='integer')
-        self.assertEquals(str(vm.exception),
-                          "int() argument must be a string, a bytes-like object or a number, not 'list'")
 
     def test_wrong_var_type(self):
         with self.assertRaises(ValueError) as vm:
@@ -54,8 +52,6 @@ class EnvTestCase(unittest.TestCase):
     def test_boolean_invalid(self):
         with self.assertRaises(ValueError) as vm:
             env('INVALID_BOOLEAN', var_type='boolean')
-        self.assertEquals(str(vm.exception),
-                          'This value is not a boolean value.')
 
     def test_list_valid(self):
         self.assertEqual(['1', '2', '3'], env('VALID_LIST', var_type='list'))
@@ -63,8 +59,6 @@ class EnvTestCase(unittest.TestCase):
     def test_list_invalid(self):
         with self.assertRaises(TypeError) as vm:
             env('INVALID_LIST', var_type='list')
-        self.assertEquals(str(vm.exception),
-                          "'int' object is not iterable")
 
     def test_tuple_valid(self):
         self.assertEqual(('True','FALSE'), env('VALID_TUPLE', var_type='tuple'))
@@ -72,8 +66,6 @@ class EnvTestCase(unittest.TestCase):
     def test_tuple_invalid(self):
         with self.assertRaises(TypeError) as vm:
             env('INVALID_TUPLE', var_type='tuple')
-        self.assertEquals(str(vm.exception),
-                          "'int' object is not iterable")
 
     def test_dict_valid(self):
         self.assertEqual({'first_name':'Suge'}, env('VALID_DICT', var_type='dict'))
@@ -81,8 +73,6 @@ class EnvTestCase(unittest.TestCase):
     def test_dict_invalid(self):
         with self.assertRaises(SyntaxError) as vm:
             env('INVALID_DICT', var_type='dict')
-        self.assertEquals(str(vm.exception),
-                          "unexpected EOF while parsing (<unknown>, line 1)")
 
     def test_float_valid(self):
         self.assertEqual(5.0, env('VALID_FLOAT', var_type='float'))
