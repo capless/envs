@@ -80,8 +80,6 @@ class EnvTestCase(unittest.TestCase):
     def test_float_invalid(self):
         with self.assertRaises(TypeError) as vm:
             env('INVALID_FLOAT', var_type='float')
-        self.assertEquals(str(vm.exception),
-                          "float() argument must be a string or a number, not 'list'")
 
     def test_defaults(self):
         self.assertEqual(env('HELLO',5,var_type='integer'),5)
