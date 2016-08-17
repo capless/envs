@@ -8,7 +8,7 @@ class EnvTestCase(unittest.TestCase):
     def setUp(self):
         #Integer
         os.environ.setdefault('VALID_INTEGER','1')
-        os.environ.setdefault('INVALID_INTEGER','seven')
+        os.environ.setdefault('INVALID_INTEGER','["seven"]')
         #String
         os.environ.setdefault('VALID_STRING', 'seven')
         #Boolean
@@ -33,16 +33,15 @@ class EnvTestCase(unittest.TestCase):
         self.assertEqual(1,env('VALID_INTEGER',var_type='integer'))
 
     def test_integer_invalid(self):
-        with self.assertRaises(ValueError) as vm:
+        with self.assertRaises(TypeError) as vm:
             env('INVALID_INTEGER',var_type='integer')
         self.assertEquals(str(vm.exception),
-                          "invalid literal for int() with base 10: 'seven'")
+                          "int() argument must be a string, a bytes-like object or a number, not 'list'")
 
     def test_wrong_var_type(self):
         with self.assertRaises(ValueError) as vm:
             env('INVALID_INTEGER',var_type='set')
-        self.assertEquals(str(vm.exception),
-                          'The var_type argument should be one of the following string,boolean,list,tuple,integer,float,dict')
+
     def test_string_valid(self):
         self.assertEqual('seven',env('VALID_STRING'))
 
@@ -88,12 +87,22 @@ class EnvTestCase(unittest.TestCase):
     def test_float_valid(self):
         self.assertEqual(5.0, env('VALID_FLOAT', var_type='float'))
 
-    def test_dict_invalid(self):
-        with self.assertRaises(ValueError) as vm:
+    def test_float_invalid(self):
+        with self.assertRaises(TypeError) as vm:
             env('INVALID_FLOAT', var_type='float')
-        self.assertIn(str(vm.exception),
-                      ("could not convert string to float: '[5.0]'",
-                       'could not convert string to float: [5.0]'))
+        self.assertEquals(str(vm.exception),
+                          "float() argument must be a string or a number, not 'list'")
+
+    def test_defaults(self):
+        self.assertEqual(env('HELLO',5,var_type='integer'),5)
+        self.assertEqual(env('HELLO', 5.0, var_type='float'),5.0)
+        self.assertEqual(env('HELLO', [], var_type='list'),[])
+        self.assertEqual(env('HELLO', {}, var_type='dict'),{})
+        self.assertEqual(env('HELLO', (), var_type='tuple'),())
+        self.assertEqual(env('HELLO', 'world'),'world')
+        self.assertEqual(env('HELLO', False, var_type='boolean'),False)
+        self.assertEqual(env('HELLO', 'False', var_type='boolean'),False)
+        self.assertEqual(env('HELLO', 'true', var_type='boolean'), True)
 
 if __name__ == '__main__':
     unittest.main()
