@@ -1,7 +1,7 @@
 # envs
 Easy access of environment variables from Python with support for booleans, strings, lists, tuples, integers, floats, and dicts.
 
-##Use Case
+## Use Case
 
 If you need environment variables for your settings but need an easy way of Python objects instead of just strings. For example, if you need a list of strings.
 
@@ -18,7 +18,7 @@ If you need environment variables for your settings but need an easy way of Pyth
 'adfadfadfafasf'
 ```
 
-##Lists
+## Lists
 **Environment Variable Example:** SERVER_NAMES="['coastal','inland','western']"
 ```python
 >>>from envs import env
@@ -27,7 +27,7 @@ If you need environment variables for your settings but need an easy way of Pyth
 ['coastal','inland','western']
 ```
 
-##Tuples
+## Tuples
 **Environment Variable Example:** SERVER_NAMES="('coastal','inland','western')"
 
 ```python
@@ -37,7 +37,7 @@ If you need environment variables for your settings but need an easy way of Pyth
 ('coastal','inland','western')
 ```
 
-##Dicts
+## Dicts
 **Environment Variable Example:** DATABASE="{'USER':'name','PASSWORD':'password'}"
 
 ```python
@@ -67,7 +67,7 @@ If you need environment variables for your settings but need an easy way of Pyth
 0.9
 ```
 
-##Booleans
+## Booleans
 **Environment Variable Example:** USE_PROFILE=false
 ```python
 >>>from envs import env
