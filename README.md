@@ -75,3 +75,7 @@ If you need environment variables for your settings but need an easy way of Pyth
 >>>env('USE_PROFILE',var_type='boolean')
 False
 ```
+### Author
+
+**Twitter:**:[@brianjinwright](https://twitter.com/brianjinwright)
+**Github:** [bjinwright](https://github.com/bjinwright)
