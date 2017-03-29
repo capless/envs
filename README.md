@@ -6,7 +6,7 @@ Easy access of environment variables from Python with support for booleans, stri
 If you need environment variables for your settings but need an easy way of Python objects instead of just strings. For example, if you need a list of strings.
 
 
-[![Build Status](https://travis-ci.org/bjinwright/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
+[![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
 
 ## Strings
 
