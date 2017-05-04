@@ -1,12 +1,12 @@
 # envs
 Easy access of environment variables from Python with support for booleans, strings, lists, tuples, integers, floats, and dicts.
 
-##Use Case
+## Use Case
 
 If you need environment variables for your settings but need an easy way of Python objects instead of just strings. For example, if you need a list of strings.
 
 
-[![Build Status](https://travis-ci.org/bjinwright/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
+[![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
 
 
 ### Strings
@@ -114,3 +114,8 @@ Make sure that the defined envs with no default value have a value set in the en
 ```commandline
 envs check_envs --settings-file your.settings
 ```
+
+### Author
+
+**Twitter:**:[@brianjinwright](https://twitter.com/brianjinwright)
+**Github:** [bjinwright](https://github.com/bjinwright)
