@@ -6,7 +6,7 @@ install_reqs = parse_requirements('requirements.txt', session=False)
 
 setup(
     name='envs',
-    description='Easy access of environment variables from Python with support for booleans.',
+    description='Easy access of environment variables from Python with support for strings, booleans, list, tuples, and dicts.',
     url='https://github.com/bjinwright/envs',
     author='Brian Jinwright',
     license='GNU GPL v3',
@@ -14,7 +14,7 @@ setup(
     install_requires=[str(ir.req) for ir in install_reqs],
     packages=find_packages(),
     py_modules=['envs.cli'],
-    version='0.3.0',
+    version='1.0',
     entry_points='''
         [console_scripts]
         envs=envs.cli:envs
