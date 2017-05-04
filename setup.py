@@ -14,7 +14,7 @@ setup(
     install_requires=[str(ir.req) for ir in install_reqs],
     packages=find_packages(),
     py_modules=['envs.cli'],
-    version='1.0',
+    version='1.1',
     entry_points='''
         [console_scripts]
         envs=envs.cli:envs

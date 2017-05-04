@@ -1,1 +1,1 @@
-recursive-include envs/teamplates *
+recursive-include envs/templates *
