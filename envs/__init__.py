@@ -1,6 +1,11 @@
-import os
 import ast
+import json
+import os
+import sys
 
+from .exceptions import EnvsValueException
+
+_envs_list = []
 
 def validate_boolean(value):
     true_vals = ('True', 'true', 1, '1')
@@ -26,15 +31,22 @@ class Env(object):
         'dict':dict
     }
 
-    def __call__(self, key, default=None, var_type='string'):
+    def __call__(self, key, default=None, var_type='string',allow_none=True):
+        if 'list_envs' in sys.argv or 'check_envs' in sys.argv:
+            with open('.envs_result','a') as f:
+                json.dump({'key':key,'var_type':var_type,'default':default},f)
+                f.write(',')
         value = os.getenv(key,default)
+        if not value and not allow_none:
+            raise EnvsValueException('{}: Environment Variable Not Set'.format(key))
         if not var_type in self.valid_types.keys():
             raise ValueError(
                 'The var_type argument should be one of the following {0}'.format(
                     ','.join(self.valid_types.keys())))
-        return self.validate_type(value,self.valid_types[var_type])
+        return self.validate_type(value,self.valid_types[var_type],key)
 
-    def validate_type(self,value,klass):
+
+    def validate_type(self,value,klass,key):
         if not klass:
             return value
         if klass == validate_boolean:
