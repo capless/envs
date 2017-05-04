@@ -34,7 +34,7 @@ class Env(object):
     def __call__(self, key, default=None, var_type='string',allow_none=True):
         if 'list_envs' in sys.argv or 'check_envs' in sys.argv:
             with open('.envs_result','a') as f:
-                json.dump({'key':key,'var_type':var_type,'default':default},f)
+                json.dump({'key':key,'var_type':var_type,'default':default,'value':os.getenv(key)},f)
                 f.write(',')
         value = os.getenv(key,default)
         if not value and not allow_none:

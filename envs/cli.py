@@ -37,10 +37,10 @@ def convert_settings(settings_file):
 def list_envs(settings_file,keep_result):
     envs_result = list_envs_module(settings_file)
     table_data = [
-        ['Env Var','Var Type','Has Default'],
+        ['Env Var','Var Type','Has Default','Environment Value'],
 
     ]
-    table_data.extend([[row.get('key'),row.get('var_type'),bool(row.get('default'))] for row in envs_result])
+    table_data.extend([[row.get('key'),row.get('var_type'),bool(row.get('default')),row.get('value')] for row in envs_result])
     click.echo(AsciiTable(table_data).table)
 
     if not keep_result:
