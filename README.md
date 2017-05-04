@@ -13,7 +13,25 @@ If you need environment variables for your settings but need an easy way of usin
 
 [![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
 
+## Quick Start
 
+### Run Convert Settings
+
+**IMPORTANT:** Don't name this file the same as the original module (you have added the imports back yet).  
+```commandline
+envs convert_settings --settings-file your.settings.module
+```
+
+### Copy and Paste the Imports and Logic Code From Original File
+
+Envs does not copy and paste your imports from your original code, so you have to do this manually.
+
+### Run List Envs
+
+This tells you what envs have default v
+```commandline
+envs list_envs --settings-file your.settings.module
+```
 ## General API
 
 ```python
@@ -104,7 +122,6 @@ Converts an existing settings file so it uses envs. **IMPORTANT:** This command 
 
 ```commandline
 envs convert_module --settings-file your.settings
-
 ```
 
 ### List Envs (list_envs)
@@ -120,7 +137,7 @@ envs list_envs --settings-file your.settings --keep-result False
 
 ### Check Envs (check_envs)
 
-Make sure that the defined envs with no default value have a value set in the environment. This command will raise an **EnvsValueException** if there is environment variable that should be set that is not.
+Make sure that the defined envs with no default value have a value set in the environment. This command will raise an **EnvsValueException** if there is environment variable that should be set that is not. This command is meant for use with a CI/CD tool as a way to halt the build if there isn't a value for an environment variable.
 
 - **settings-file:** - Dot notated import string for settings file
 
