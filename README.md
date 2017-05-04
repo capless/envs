@@ -3,11 +3,24 @@ Easy access of environment variables from Python with support for booleans, stri
 
 ## Use Case
 
-If you need environment variables for your settings but need an easy way of Python objects instead of just strings. For example, if you need a list of strings.
+If you need environment variables for your settings but need an easy way of using Python objects instead of just strings. For example, if you need a list of strings.
 
+## Features
+
+- CLI to convert settings
+- CLI to list and check environment variables
+- Use strings, lists, tuples, integers, floats or dicts. **IMPORTANT:** When setting the variables in your environmenet (ex. in .env file) wrap them in single or double quotes (ex. `"['some','list']"`) 
 
 [![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
 
+
+## General API
+
+```python
+from envs import env
+
+env('SOMEVAR','default value for that var',var_type='string',allow_none=True)
+```
 
 ### Strings
 
