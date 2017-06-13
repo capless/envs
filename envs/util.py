@@ -44,11 +44,18 @@ def convert_module(module):
     return attr_list
 
 def import_mod(module):
-    try:
-        m = importlib.import_module(module)
-    except ModuleNotFoundError:
-        sys.path.insert(0,os.getcwd())
-        m = importlib.import_module(module)
+    if sys.version_info.major == 3:
+        try:
+            m = importlib.import_module(module)
+        except ModuleNotFoundError:
+            sys.path.insert(0,os.getcwd())
+            m = importlib.import_module(module)
+    else:
+        try:
+            m = importlib.import_module(module)
+        except ImportError:
+            sys.path.insert(0,os.getcwd())
+            m = importlib.import_module(module)
     return m
 
 def list_envs_module(module):
