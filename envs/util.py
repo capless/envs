@@ -29,17 +29,19 @@ def convert_module(module):
             convert = bool(int(raw_input('Convert {}? (1=True,0=False): '.format(k))))
             attr_dict = {'name': k, 'convert': convert}
 
-            var_type = raw_input('Variable Type Choices (ex. boolean,string,list,tuple,integer,float,dict): ')
-            if not var_type in VAR_TYPES:
-                raise ValueError('{} not in {}'.format(var_type,VAR_TYPES))
-            attr_dict['var_type'] = var_type
-
             default_val = raw_input('Default Value? (default: {}): '.format(v))
             if default_val:
                 default_val = ast.literal_eval(default_val)
             if not default_val:
                 default_val = v
             attr_dict['default_val'] = default_val
+
+            var_type = raw_input('Variable Type Choices (ex. boolean,string,list,tuple,integer,float,dict): ')
+            if not var_type in VAR_TYPES:
+                raise ValueError('{} not in {}'.format(var_type,VAR_TYPES))
+            attr_dict['var_type'] = var_type
+
+
             attr_list.append(attr_dict)
     return attr_list
 
