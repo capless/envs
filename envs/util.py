@@ -27,8 +27,9 @@ def convert_module(module):
     for k, v in module.__dict__.items():
         if k.isupper():
             convert = bool(int(raw_input('Convert {}? (1=True,0=False): '.format(k))))
+            attr_dict = {'name': k, 'convert': convert}
+            default_val = None
             if convert:
-                attr_dict = {'name': k, 'convert': convert}
 
                 default_val = raw_input('Default Value? (default: {}): '.format(v))
                 if default_val:
@@ -41,9 +42,9 @@ def convert_module(module):
                 if not var_type in VAR_TYPES:
                     raise ValueError('{} not in {}'.format(var_type,VAR_TYPES))
                 attr_dict['var_type'] = var_type
-
-
-                attr_list.append(attr_dict)
+            if not default_val:
+                default_val = v 
+            attr_list.append(attr_dict)
     return attr_list
 
 def import_mod(module):
