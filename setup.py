@@ -11,7 +11,9 @@ setup(
     author='Brian Jinwright',
     license='GNU GPL v3',
     keywords='environment variables',
-    install_requires=[str(ir.req) for ir in install_reqs],
+    extras_require={
+        'cli': [str(ir.req) for ir in install_reqs],
+    },
     packages=find_packages(),
     py_modules=['envs.cli'],
     include_package_data=True,
