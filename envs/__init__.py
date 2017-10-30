@@ -2,6 +2,7 @@ import ast
 import json
 import os
 import sys
+from decimal import Decimal
 
 from .exceptions import EnvsValueException
 
@@ -28,7 +29,8 @@ class Env(object):
         'tuple': tuple,
         'integer': int,
         'float': float,
-        'dict': dict
+        'dict': dict,
+        'decimal': Decimal
     }
 
     def __call__(self, key, default=None, var_type='string', allow_none=True):
@@ -48,7 +50,7 @@ class Env(object):
     def validate_type(self, value, klass, key):
         if not klass:
             return value
-        if klass == validate_boolean:
+        if klass in (validate_boolean, Decimal):
             return klass(value)
         if isinstance(value, klass):
             return value

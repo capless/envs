@@ -1,5 +1,6 @@
 import os
 import unittest
+from decimal import Decimal, InvalidOperation
 
 from envs import env
 
@@ -24,10 +25,12 @@ class EnvTestCase(unittest.TestCase):
         # Dict
         os.environ.setdefault('VALID_DICT', "{'first_name':'Suge'}")
         os.environ.setdefault('INVALID_DICT', 'Aaron Rogers')
-
-        # Dict
+        # Float
         os.environ.setdefault('VALID_FLOAT', "5.0")
         os.environ.setdefault('INVALID_FLOAT', '[5.0]')
+        # Decimal
+        os.environ.setdefault('VALID_DECIMAL', "2.39")
+        os.environ.setdefault('INVALID_DECIMAL', "FOOBAR")
 
     def test_integer_valid(self):
         self.assertEqual(1, env('VALID_INTEGER', var_type='integer'))
@@ -81,6 +84,13 @@ class EnvTestCase(unittest.TestCase):
         with self.assertRaises(TypeError) as vm:
             env('INVALID_FLOAT', var_type='float')
 
+    def test_decimal_valid(self):
+        self.assertEqual(Decimal('2.39'), env('VALID_DECIMAL', var_type='decimal'))
+
+    def test_decimal_invalid(self):
+        with self.assertRaises(ArithmeticError) as vm:
+            env('INVALID_DECIMAL', var_type='decimal')
+
     def test_defaults(self):
         self.assertEqual(env('HELLO', 5, var_type='integer'), 5)
         self.assertEqual(env('HELLO', 5.0, var_type='float'), 5.0)
@@ -91,6 +101,7 @@ class EnvTestCase(unittest.TestCase):
         self.assertEqual(env('HELLO', False, var_type='boolean'), False)
         self.assertEqual(env('HELLO', 'False', var_type='boolean'), False)
         self.assertEqual(env('HELLO', 'true', var_type='boolean'), True)
+        self.assertEqual(env('HELLO', Decimal('3.14'), var_type='decimal'), Decimal('3.14'))
 
 
 if __name__ == '__main__':
