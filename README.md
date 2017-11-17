@@ -108,6 +108,15 @@ env('SOMEVAR','default value for that var',var_type='string',allow_none=True)
 False
 ```
 
+### Decimals
+**Environment Variable Example:** HALF_SEVEN=3.5
+```python
+>>> from envs import env
+
+>>> env('HALF_SEVEN', var_type='decimal')
+Decimal('3.5')
+```
+
 ## Command Line Utils
 
 **IMPORTANT:** All of the command arguments will fallback to becoming prompts if not set when calling the commands.
