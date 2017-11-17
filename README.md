@@ -14,7 +14,17 @@ If you need environment variables for your settings but need an easy way of usin
 [![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
 
 ## Quick Start
+### Install
+#### Install without CLI Requirements
 
+```commandline
+pip install envs
+```
+#### Install with CLI Requirements
+
+```commandline
+pip install envs["cli"]
+```
 ### Run Convert Settings
 
 **IMPORTANT:** Don't name this file the same as the original module (you have added the imports back yet).  
