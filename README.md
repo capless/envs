@@ -14,7 +14,17 @@ If you need environment variables for your settings but need an easy way of usin
 [![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
 
 ## Quick Start
+### Install
+#### Install without CLI Requirements
 
+```commandline
+pip install envs
+```
+#### Install with CLI Requirements
+
+```commandline
+pip install envs["cli"]
+```
 ### Run Convert Settings
 
 **IMPORTANT:** Don't name this file the same as the original module (you have added the imports back yet).  
@@ -106,6 +116,15 @@ env('SOMEVAR','default value for that var',var_type='string',allow_none=True)
 
 >>>env('USE_PROFILE',var_type='boolean')
 False
+```
+
+### Decimals
+**Environment Variable Example:** HALF_SEVEN=3.5
+```python
+>>> from envs import env
+
+>>> env('HALF_SEVEN', var_type='decimal')
+Decimal('3.5')
 ```
 
 ## Command Line Utils
