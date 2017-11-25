@@ -11,7 +11,7 @@ If you need environment variables for your settings but need an easy way of usin
 - CLI to list and check environment variables
 - Use strings, lists, tuples, integers, floats or dicts. **IMPORTANT:** When setting the variables in your environmenet (ex. in .env file) wrap them in single or double quotes (ex. `"['some','list']"`) 
 
-[![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/bjinwright/envs)
+[![Build Status](https://travis-ci.org/capless/envs.svg?branch=master)](https://travis-ci.org/capless/envs)
 
 ## Quick Start
 ### Install
