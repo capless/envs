@@ -75,7 +75,7 @@ env('SOMEVAR','default value for that var',var_type='string',allow_none=True)
 ```python
 >>>from envs import env
 
->>>env('SERVER_NAMES',var_type='list')
+>>>env('SERVER_NAMES',var_type='tuple')
 ('coastal','inland','western')
 ```
 
