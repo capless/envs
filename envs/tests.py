@@ -2,8 +2,22 @@ import os
 import unittest
 from decimal import Decimal, InvalidOperation
 
+try:
+    # python 3.4+ should use builtin unittest.mock not mock package
+    from unittest.mock import patch
+    from unittest import mock
+except ImportError:
+    from mock import patch
+    import mock
+
+import sys
+
 from envs import env
 
+import click
+from click.testing import CliRunner
+import cli
+from cli import list_envs
 
 class EnvTestCase(unittest.TestCase):
     def setUp(self):
@@ -104,5 +118,27 @@ class EnvTestCase(unittest.TestCase):
         self.assertEqual(env('HELLO', Decimal('3.14'), var_type='decimal'), Decimal('3.14'))
 
 
+class TestCase(unittest.TestCase):
+    def setUp(self):
+        os.environ.setdefault('DEBUG', 'True')
+
+
+    @mock.patch.object(sys, 'argv', ["list-envs"])
+    def test_list_envs(self):
+
+        runner = CliRunner()
+        result = runner.invoke(cli.envs, ['list-envs', '--settings-file', 'envs.test_settings', '--keep-result', 'True'])
+        self.assertEquals(result.exit_code, 0)
+        self.assertEquals(result.output,
+'''+--------------+----------+-------------+-------------------+
+| Env Var      | Var Type | Has Default | Environment Value |
++--------------+----------+-------------+-------------------+
+| DATABASE_URL | string   | False       | None              |
+| DEBUG        | boolean  | False       | True              |
+| MIDDLEWARE   | list     | False       | None              |
++--------------+----------+-------------+-------------------+
+''')
+
 if __name__ == '__main__':
     unittest.main()
+
