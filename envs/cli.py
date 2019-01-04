@@ -6,6 +6,7 @@ from terminaltables import AsciiTable
 
 from envs.exceptions import EnvsValueException
 from . import env
+from . import ARGUMENTS
 from .util import convert_module, import_mod, list_envs_module, raw_input
 
 SETTINGS_TEMPLATE = jinja2.Environment(loader=jinja2.PackageLoader(
@@ -17,7 +18,7 @@ def envs():
     pass
 
 
-@envs.command(help='Converts an existing settings file so it uses envs.')
+@envs.command(ARGUMENTS.CONVERT_SETTINGS, help='Converts an existing settings file so it uses envs.')
 @click.option('--settings-file', prompt=True,
               help='Settings Module? ex. settings or yourapp.settings')
 def convert_settings(settings_file):
@@ -32,7 +33,7 @@ def convert_settings(settings_file):
     click.echo(click.style('Your new settings file {}'.format(new_settings_filename), fg='green'))
 
 
-@envs.command(help='Shows a list of env instances set in a settings file.')
+@envs.command(ARGUMENTS.LIST_ENVS, help='Shows a list of env instances set in a settings file.')
 @click.option('--settings-file', prompt=True,
               help='Settings Module? ex. settings or yourapp.settings')
 @click.option('--keep-result', prompt=True, help='Keep the result file (.envs_result)?', default=False)
@@ -50,7 +51,7 @@ def list_envs(settings_file, keep_result):
         os.remove('.envs_result')
 
 
-@envs.command(help='Make sure that the defined envs with no default value have a value set in the environment.')
+@envs.command(ARGUMENTS.CHECK_ENVS, help='Make sure that the defined envs with no default value have a value set in the environment.')
 @click.option('--settings-file', prompt=True,
               help='Settings Module? ex. settings or yourapp.settings')
 def check_envs(settings_file):
