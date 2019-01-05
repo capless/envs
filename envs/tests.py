@@ -1,6 +1,7 @@
 import os
 import unittest
 from decimal import Decimal, InvalidOperation
+import json
 
 try:
     # python 3.4+ should use builtin unittest.mock not mock package
@@ -128,17 +129,15 @@ class TestCase(unittest.TestCase):
 
         runner = CliRunner()
         result = runner.invoke(cli.envs, ['list-envs', '--settings-file', 'envs.test_settings', '--keep-result', 'True'])
+
+        output_expected = [{"default": None, "value": None, "var_type": "string", "key": "DATABASE_URL"},{"default": False, "value": "True", "var_type": "boolean", "key": "DEBUG"},{"default": [], "value": None, "var_type": "list", "key": "MIDDLEWARE"},{}]
+
+        with open('.envs_result', 'r') as f:
+            output_actual = json.load(f)
+
         self.assertEquals(result.exit_code, 0)
-        self.assertEquals(result.output,
-'''+--------------+----------+-------------+-------------------+
-| Env Var      | Var Type | Has Default | Environment Value |
-+--------------+----------+-------------+-------------------+
-| DATABASE_URL | string   | False       | None              |
-| DEBUG        | boolean  | False       | True              |
-| MIDDLEWARE   | list     | False       | None              |
-+--------------+----------+-------------+-------------------+
-''')
+        self.assertEquals(output_actual, output_expected)
+        
 
 if __name__ == '__main__':
     unittest.main()
-
