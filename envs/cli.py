@@ -6,7 +6,7 @@ from terminaltables import AsciiTable
 
 from envs.exceptions import EnvsValueException
 from . import env
-from . import ARGUMENTS
+from . import ARGUMENTS, ENVS_RESULT_FILENAME
 from .util import convert_module, import_mod, list_envs_module, raw_input
 
 SETTINGS_TEMPLATE = jinja2.Environment(loader=jinja2.PackageLoader(
@@ -36,7 +36,7 @@ def convert_settings(settings_file):
 @envs.command(ARGUMENTS.LIST_ENVS, help='Shows a list of env instances set in a settings file.')
 @click.option('--settings-file', prompt=True,
               help='Settings Module? ex. settings or yourapp.settings')
-@click.option('--keep-result', prompt=True, help='Keep the result file (.envs_result)?', default=False)
+@click.option('--keep-result', prompt=True, help='Keep the result file ({})?'.format(ENVS_RESULT_FILENAME), default=False)
 def list_envs(settings_file, keep_result):
     envs_result = list_envs_module(settings_file)
     table_data = [
@@ -48,7 +48,7 @@ def list_envs(settings_file, keep_result):
     click.echo(AsciiTable(table_data).table)
 
     if not keep_result:
-        os.remove('.envs_result')
+        os.remove(ENVS_RESULT_FILENAME)
 
 
 @envs.command(ARGUMENTS.CHECK_ENVS, help='Make sure that the defined envs with no default value have a value set in the environment.')
@@ -60,4 +60,4 @@ def check_envs(settings_file):
         value = env(row.get('key'), row.get('default'), var_type=row.get('var_type'))
         if not value:
             raise EnvsValueException('{}: Environment Variable Not Set'.format(row.get('key')))
-    os.remove('.envs_result')
+    os.remove(ENVS_RESULT_FILENAME)

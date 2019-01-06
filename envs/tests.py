@@ -123,7 +123,6 @@ class TestCase(unittest.TestCase):
     def setUp(self):
         os.environ.setdefault('DEBUG', 'True')
 
-
     @mock.patch.object(sys, 'argv', ["list-envs"])
     def test_list_envs(self):
 
@@ -137,7 +136,7 @@ class TestCase(unittest.TestCase):
 
         self.assertEquals(result.exit_code, 0)
         self.assertEquals(output_actual, output_expected)
-        
+
 
 if __name__ == '__main__':
     unittest.main()

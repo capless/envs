@@ -15,6 +15,8 @@ class CLIArguments():
 
 ARGUMENTS = CLIArguments()
 
+ENVS_RESULT_FILENAME = '.envs_result'
+
 
 def validate_boolean(value):
     true_vals = ('True', 'true', 1, '1')
@@ -42,7 +44,7 @@ class Env(object):
 
     def __call__(self, key, default=None, var_type='string', allow_none=True):
         if ARGUMENTS.LIST_ENVS in sys.argv or ARGUMENTS.CHECK_ENVS in sys.argv:
-            with open('.envs_result', 'a') as f:
+            with open(ENVS_RESULT_FILENAME, 'a') as f:
                 json.dump({'key': key, 'var_type': var_type, 'default': default, 'value': os.getenv(key)}, f)
                 f.write(',')
         value = os.getenv(key, default)
