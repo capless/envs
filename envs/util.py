@@ -6,7 +6,7 @@ import sys
 
 from click._compat import raw_input
 
-from . import Env
+from . import Env, ENVS_RESULT_FILENAME
 
 VAR_TYPES = Env.valid_types.keys()
 
@@ -67,12 +67,12 @@ def import_mod(module):
 
 
 def list_envs_module(module):
-    with open('.envs_result', 'w+') as f:
+    with open(ENVS_RESULT_FILENAME, 'w+') as f:
         f.write('[')
     import_mod(module)
-    with open('.envs_result', 'a') as f:
+    with open(ENVS_RESULT_FILENAME, 'a') as f:
         f.write('{}]')
-    with open('.envs_result', 'r') as f:
+    with open(ENVS_RESULT_FILENAME, 'r') as f:
         envs_result = json.load(f)
         envs_result.pop()
     return envs_result

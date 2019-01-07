@@ -1,9 +1,19 @@
 import os
 import unittest
 from decimal import Decimal, InvalidOperation
+import json
+
+try:
+    # python 3.4+ should use builtin unittest.mock not mock package
+    from unittest.mock import patch
+    from unittest import mock
+except ImportError:
+    from mock import patch
+    import mock
+
+import sys
 
 from envs import env
-
 
 class EnvTestCase(unittest.TestCase):
     def setUp(self):
@@ -103,6 +113,54 @@ class EnvTestCase(unittest.TestCase):
         self.assertEqual(env('HELLO', 'true', var_type='boolean'), True)
         self.assertEqual(env('HELLO', Decimal('3.14'), var_type='decimal'), Decimal('3.14'))
 
+'''
+Each CLI Test must be run outside of test suites in isolation
+since Click CLI Runner alters the global context
+'''
+def setup_CliRunner(test_func):
+    '''
+    Decorator to initialize environment for CliRunner.
+    '''
+    def wrapper():
+        from click.testing import CliRunner
+        try:
+            from cli import envs as cli_envs
+        except ImportError:
+            from .cli import envs as cli_envs
+
+        try:
+            from cli import envs
+        except ImportError:
+            from .cli import envs
+
+        test_func()
+
+    return wrapper
+
+@mock.patch.object(sys, 'argv', ["list-envs"])
+@setup_CliRunner
+def test_list_envs():
+    os.environ.setdefault('DEBUG', 'True')
+
+    runner = CliRunner()
+    result = runner.invoke(envs, ['list-envs', '--settings-file', 'envs.test_settings', '--keep-result', 'True'], catch_exceptions=False)
+
+    output_expected = [{"default": None, "value": None, "var_type": "string", "key": "DATABASE_URL"},{"default": False, "value": "True", "var_type": "boolean", "key": "DEBUG"},{"default": [], "value": None, "var_type": "list", "key": "MIDDLEWARE"},{}]
+
+    with open('.envs_result', 'r') as f:
+        output_actual = json.load(f)
+
+    exit_code_expected = 0
+    exit_code_actual = result.exit_code
+
+
+    assert exit_code_actual == exit_code_expected
+    assert output_actual == output_expected
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
+

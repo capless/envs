@@ -89,3 +89,6 @@ celerybeat-schedule
 
 # PyCharm Stuff
 .idea/
+
+# Local test files
+.envs_result
