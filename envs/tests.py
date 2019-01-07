@@ -15,10 +15,8 @@ import sys
 
 from envs import env
 
-import click
 from click.testing import CliRunner
-import cli
-from cli import list_envs
+from .cli import envs
 
 class EnvTestCase(unittest.TestCase):
     def setUp(self):
@@ -118,25 +116,27 @@ class EnvTestCase(unittest.TestCase):
         self.assertEqual(env('HELLO', 'true', var_type='boolean'), True)
         self.assertEqual(env('HELLO', Decimal('3.14'), var_type='decimal'), Decimal('3.14'))
 
+'''
+Each CLI Test must be run outside of test suites in isolation
+since Click CLI Runner alters the global context
+'''
+@mock.patch.object(sys, 'argv', ["list-envs"])
+def test_list_envs():
+    os.environ.setdefault('DEBUG', 'True')
 
-class TestCase(unittest.TestCase):
-    def setUp(self):
-        os.environ.setdefault('DEBUG', 'True')
+    runner = CliRunner()
+    result = runner.invoke(envs, ['list-envs', '--settings-file', 'envs.test_settings', '--keep-result', 'True'])
 
-    @mock.patch.object(sys, 'argv', ["list-envs"])
-    def test_list_envs(self):
+    output_expected = [{"default": None, "value": None, "var_type": "string", "key": "DATABASE_URL"},{"default": False, "value": "True", "var_type": "boolean", "key": "DEBUG"},{"default": [], "value": None, "var_type": "list", "key": "MIDDLEWARE"},{}]
 
-        runner = CliRunner()
-        result = runner.invoke(cli.envs, ['list-envs', '--settings-file', 'envs.test_settings', '--keep-result', 'True'])
+    with open('.envs_result', 'r') as f:
+        output_actual = json.load(f)
 
-        output_expected = [{"default": None, "value": None, "var_type": "string", "key": "DATABASE_URL"},{"default": False, "value": "True", "var_type": "boolean", "key": "DEBUG"},{"default": [], "value": None, "var_type": "list", "key": "MIDDLEWARE"},{}]
+    exit_code_expected = 0
+    exit_code_actual = result.exit_code
 
-        with open('.envs_result', 'r') as f:
-            output_actual = json.load(f)
-
-        self.assertEquals(result.exit_code, 0)
-        self.assertEquals(output_actual, output_expected)
-
+    assert exit_code_actual == exit_code_expected
+    assert output_actual == output_expected
 
 if __name__ == '__main__':
     unittest.main()

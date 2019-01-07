@@ -9,5 +9,6 @@ python:
   - "nightly" # currently points to 3.6-dev
 # command to install dependencies
 install: "pip install -r test-requirements.txt"
-# command to run tests
-script: nosetests
+# command to run tests, we isolate the tests since the Click CLI Runner
+# alters the global state
+script: nosetests --with-isolation
