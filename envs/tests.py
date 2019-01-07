@@ -15,9 +15,6 @@ import sys
 
 from envs import env
 
-from click.testing import CliRunner
-from .cli import envs
-
 class EnvTestCase(unittest.TestCase):
     def setUp(self):
         # Integer
@@ -120,12 +117,33 @@ class EnvTestCase(unittest.TestCase):
 Each CLI Test must be run outside of test suites in isolation
 since Click CLI Runner alters the global context
 '''
+def setup_CliRunner(test_func):
+    '''
+    Decorator to initialize environment for CliRunner.
+    '''
+    def wrapper():
+        from click.testing import CliRunner
+        try:
+            from cli import envs as cli_envs
+        except ImportError:
+            from .cli import envs as cli_envs
+
+        try:
+            from cli import envs
+        except ImportError:
+            from .cli import envs
+
+        test_func()
+
+    return wrapper
+
 @mock.patch.object(sys, 'argv', ["list-envs"])
+@setup_CliRunner
 def test_list_envs():
     os.environ.setdefault('DEBUG', 'True')
 
     runner = CliRunner()
-    result = runner.invoke(envs, ['list-envs', '--settings-file', 'envs.test_settings', '--keep-result', 'True'])
+    result = runner.invoke(envs, ['list-envs', '--settings-file', 'envs.test_settings', '--keep-result', 'True'], catch_exceptions=False)
 
     output_expected = [{"default": None, "value": None, "var_type": "string", "key": "DATABASE_URL"},{"default": False, "value": "True", "var_type": "boolean", "key": "DEBUG"},{"default": [], "value": None, "var_type": "list", "key": "MIDDLEWARE"},{}]
 
@@ -135,8 +153,14 @@ def test_list_envs():
     exit_code_expected = 0
     exit_code_actual = result.exit_code
 
+
     assert exit_code_actual == exit_code_expected
     assert output_actual == output_expected
 
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
+
