@@ -21,7 +21,7 @@ setup(
     py_modules=['envs.cli'],
     include_package_data=True,
     zip_safe=True,
-    version='1.2.6',
+    version='1.3',
     entry_points='''
         [console_scripts]
         envs=envs.cli:envs
