@@ -12,7 +12,7 @@ setup(
     description='Easy access of environment variables from Python with support for strings, booleans, list, tuples, and dicts.',
     url='https://github.com/bjinwright/envs',
     author='Brian Jinwright',
-    license='GNU GPL v3',
+    license='Apache License 2.0',
     keywords='environment variables',
     extras_require={
         'cli': parse_requirements('requirements_cli.txt'),
