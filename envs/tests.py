@@ -14,6 +14,7 @@ except ImportError:
 import sys
 
 from envs import env
+from envs.exceptions import EnvsValueException
 
 class EnvTestCase(unittest.TestCase):
     def setUp(self):
@@ -112,6 +113,40 @@ class EnvTestCase(unittest.TestCase):
         self.assertEqual(env('HELLO', 'False', var_type='boolean'), False)
         self.assertEqual(env('HELLO', 'true', var_type='boolean'), True)
         self.assertEqual(env('HELLO', Decimal('3.14'), var_type='decimal'), Decimal('3.14'))
+
+    def test_without_defaults_allow_none(self):
+        self.assertEqual(env('HELLO'), None)
+        self.assertEqual(env('HELLO', var_type='integer'), None)
+        self.assertEqual(env('HELLO', var_type='float'), None)
+        self.assertEqual(env('HELLO', var_type='list'), None)
+
+    def test_without_defaults_disallow_none(self):
+        with self.assertRaises(EnvsValueException):
+            env('HELLO', allow_none=False)
+        with self.assertRaises(EnvsValueException):
+            env('HELLO', var_type='integer', allow_none=False)
+        with self.assertRaises(EnvsValueException):
+            env('HELLO', var_type='float', allow_none=False)
+        with self.assertRaises(EnvsValueException):
+            env('HELLO', var_type='list', allow_none=False)
+
+    def test_empty_values(self):
+        os.environ.setdefault('EMPTY', '')
+        self.assertEqual(env('EMPTY'), '')
+        with self.assertRaises(SyntaxError):
+            env('EMPTY', var_type='integer')
+        with self.assertRaises(SyntaxError):
+            env('EMPTY', var_type='float')
+        with self.assertRaises(SyntaxError):
+            env('EMPTY', var_type='list')
+        with self.assertRaises(SyntaxError):
+            env('EMPTY', var_type='dict')
+        with self.assertRaises(SyntaxError):
+            env('EMPTY', var_type='tuple')
+        with self.assertRaises(ValueError):
+            env('EMPTY', var_type='boolean')
+        with self.assertRaises(ArithmeticError):
+            env('EMPTY', var_type='decimal')
 
 '''
 Each CLI Test must be run outside of test suites in isolation
