@@ -48,12 +48,14 @@ class Env(object):
                 json.dump({'key': key, 'var_type': var_type, 'default': default, 'value': os.getenv(key)}, f)
                 f.write(',')
         value = os.getenv(key, default)
-        if not value and not allow_none:
-            raise EnvsValueException('{}: Environment Variable Not Set'.format(key))
         if not var_type in self.valid_types.keys():
             raise ValueError(
                 'The var_type argument should be one of the following {0}'.format(
                     ','.join(self.valid_types.keys())))
+        if value is None:
+            if not allow_none:
+                raise EnvsValueException('{}: Environment Variable Not Set'.format(key))
+            return value
         return self.validate_type(value, self.valid_types[var_type], key)
 
     def validate_type(self, value, klass, key):
