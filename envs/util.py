@@ -4,12 +4,12 @@ import json
 import os
 import sys
 
-from click._compat import raw_input
-
 from . import Env, ENVS_RESULT_FILENAME
 
 VAR_TYPES = Env.valid_types.keys()
 
+if sys.version_info >= (3, 0):
+    raw_input = input
 
 def import_util(imp):
     """
