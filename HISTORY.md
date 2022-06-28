@@ -1,5 +1,8 @@
 #Changes
 
+## 1.5
+Fixed setup.py not reading README.md when published to pypi
+
 ## 1.2.4
 
 Added Decimals variable type
