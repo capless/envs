@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "envs"
+version = "0.1.0"
+description = "Easy access of environment variables from Python with support for booleans, strings, lists, tuples, integers, floats, and dicts."
+authors = ["Brian Jinwright"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+jinja2 = ">=2.8"
+click = ">=6.6"
+terminaltables = ">=3.0.0"
+
+[tool.poetry.group.dev.dependencies]
+jupyter = ">=1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
