@@ -32,7 +32,7 @@ def validate_boolean(value):
 
 class Env(object):
     valid_types = {
-        'string': None,
+        'string': str,
         'boolean': validate_boolean,
         'list': list,
         'tuple': tuple,
@@ -56,16 +56,20 @@ class Env(object):
             if not allow_none:
                 raise EnvsValueException('{}: Environment Variable Not Set'.format(key))
             return value
-        return self.validate_type(value, self.valid_types[var_type], key)
+        return self.validate_type(value, var_type, key)
 
-    def validate_type(self, value, klass, key):
-        if not klass:
-            return value
+    def validate_type(self, value, var_type, key):
+        klass = self.valid_types[var_type]
         if klass in (validate_boolean, Decimal):
             return klass(value)
         if isinstance(value, klass):
             return value
-        return klass(ast.literal_eval(value))
+        try:
+            return klass(ast.literal_eval(value))
+        except ValueError as e:
+            raise TypeError(
+                f'Could not resolve value ({value}) as var_type ({var_type}) for key {key}'
+            ) from e
 
 
 env = Env()
