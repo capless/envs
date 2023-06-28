@@ -114,6 +114,16 @@ class EnvTestCase(unittest.TestCase):
         self.assertEqual(env('HELLO', 'true', var_type='boolean'), True)
         self.assertEqual(env('HELLO', Decimal('3.14'), var_type='decimal'), Decimal('3.14'))
 
+    def test_defaults_type_mismatch(self):
+        # Setting a default int with an implicit var_type of string should fail
+        # (otherwise default type is different than overridden type and that
+        # can cause problems in client code)
+        with self.assertRaises(TypeError):
+            env('HELLO', 5)
+        # Setting a default int with an explicit var_type of not-int should fail
+        with self.assertRaises(TypeError):
+            env('HELLO', 5, var_type='dict')
+
     def test_without_defaults_allow_none(self):
         self.assertEqual(env('HELLO'), None)
         self.assertEqual(env('HELLO', var_type='integer'), None)
@@ -198,4 +208,3 @@ def test_list_envs():
 
 if __name__ == '__main__':
     unittest.main()
-
